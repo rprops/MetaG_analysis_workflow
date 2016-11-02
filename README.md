@@ -23,5 +23,5 @@ ls *2.fastq | head -c -1 | tr '\n' ',' > R2.csv
 ```
 Assemble the reads
 ```
-nohup megahit -1 $(<R1.csv) -2 $(<R2.csv) -t 36 -o Assembly --presets meta > megahit.out&
+nohup megahit -1 $(<R1.csv) -2 $(<R2.csv) -t 36 -o Assembly --presets meta-large > megahit.out&
 ```
