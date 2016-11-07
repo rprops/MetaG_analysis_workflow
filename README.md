@@ -32,7 +32,7 @@ Modules required for quality trimming of reads (adapter contamination/read quali
 ```
 module load Scythe/0.993b sickle/1.33.6
 ```
-Make sure that you have non-interleaved fastq.gz files of forward and reverse reads. These should have an *R1* tag in their filename, e.g.: sample.R1.fastq.gz.
+Make sure that you have non-interleaved fastq.gz files of forward and reverse reads. These should have an *R1* tag in their filename and saved in a directory called *sample*, e.g.: sample/sample.R1.fastq.gz.
 
 
 ### Start assembly
