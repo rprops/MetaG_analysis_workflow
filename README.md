@@ -15,6 +15,13 @@ Or add it to your path:
 ```
 export PATH=~/.local/bin:$PATH
 ```
+Install trimmomatic in your path (http://www.usadellab.org/cms/?page=trimmomatic) to remove adapters. Unzip binary in your local directory and add it to your path (.bash_profile).
+```
+unzip Trimmomatic-Src-0.36.zip
+```
+```
+export PATH=/home/yourusername/Trimmomatic-0.36:$PATH
+```
 
 Create R1.csv and R2.csv files for megahit
 ```
