@@ -18,6 +18,8 @@ export PATH=~/.local/bin:$PATH
 ```
 
 ### General software installations
+Modules required for quality trimming of reads (adapter contamination/read quality). 
+
 Install trimmomatic in your path (http://www.usadellab.org/cms/?page=trimmomatic) to remove adapters. Unzip binary (source may give difficulties) in your local directory:
 ```
 unzip Trimmomatic-Src-0.36.zip
@@ -26,21 +28,29 @@ and add it to your path (.bash_profile):
 ```
 export PATH=/home/yourusername/Trimmomatic-0.36:$PATH
 ```
-Modules required for quality trimming of reads (adapter contamination/read quality).
+Check if permissions allow execution.
+```
+cd ./Trimmomatic-0.36
+ls -l
+```
 ```
 module load Scythe/0.993b sickle/1.33.6
 ```
-Sickle is not installed on flux so install it in your home directory and add it to the path similar to Trimmomatic. Make sure to reconnect to the server in order to update your path.
+Scythe is not installed on flux so install it in your home directory and add it to the path similar to Trimmomatic. 
 ```
 cd
 git clone https://github.com/vsbuffalo/scythe.git
 cd scythe
 make all
 ```
-Also install Fastqc binary from here: http://www.bioinformatics.babraham.ac.uk/projects/download.html#fastqc. And add to path (see trimmomatic).
+Also install Fastqc binary from here: http://www.bioinformatics.babraham.ac.uk/projects/download.html#fastqc. And add to path (see trimmomatic) and set permissions.
+```
+cd ./FastQC
+chmod 755 fastqc
+```
+Make sure to reconnect to the server in order to update your path.
 
 ### Quality trimming of reads
-
 
 Make sure that you have non-interleaved fastq.gz files of forward and reverse reads. These should have an *R1* tag in their filename and saved in a directory called *sample*, e.g.: sample/sample.R1.fastq.gz.
 ```
