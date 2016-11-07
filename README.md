@@ -1,5 +1,6 @@
 # DESMAN
 
+### Install DESMAN
 ```
 module load gsl python-anaconda2
 cd
@@ -15,6 +16,8 @@ Or add it to your path:
 ```
 export PATH=~/.local/bin:$PATH
 ```
+
+### General software installations
 Install trimmomatic in your path (http://www.usadellab.org/cms/?page=trimmomatic) to remove adapters. Unzip binary in your local directory and add it to your path (.bash_profile).
 ```
 unzip Trimmomatic-Src-0.36.zip
@@ -23,6 +26,10 @@ unzip Trimmomatic-Src-0.36.zip
 export PATH=/home/yourusername/Trimmomatic-0.36:$PATH
 ```
 
+### Quality trimming of reads + removal of adapters
+
+
+### Start assembly
 Create R1.csv and R2.csv files for megahit
 ```
 ls *1.fastq | head -c -1 | tr '\n' ',' > R1.csv
