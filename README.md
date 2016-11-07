@@ -26,8 +26,6 @@ and add it to your path (.bash_profile):
 ```
 export PATH=/home/yourusername/Trimmomatic-0.36:$PATH
 ```
-
-### Quality trimming of reads
 Modules required for quality trimming of reads (adapter contamination/read quality).
 ```
 module load Scythe/0.993b sickle/1.33.6
@@ -39,6 +37,11 @@ git clone https://github.com/vsbuffalo/scythe.git
 cd scythe
 make all
 ```
+Also install Fastqc binary from here: http://www.bioinformatics.babraham.ac.uk/projects/download.html#fastqc. And add to path (see trimmomatic).
+
+### Quality trimming of reads
+
+
 Make sure that you have non-interleaved fastq.gz files of forward and reverse reads. These should have an *R1* tag in their filename and saved in a directory called *sample*, e.g.: sample/sample.R1.fastq.gz.
 ```
 bash /nfs/vdenef-lab/Shared/Ruben/scripts_metaG/wrappers/Assembly/qc.sh sample_directory
