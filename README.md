@@ -27,12 +27,14 @@ and add it to your path (.bash_profile):
 export PATH=/home/yourusername/Trimmomatic-0.36:$PATH
 ```
 
-### Quality trimming of reads + removal of adapters
+### Quality trimming of reads
 Modules required for quality trimming of reads (adapter contamination/read quality).
 ```
 module load Scythe/0.993b sickle/1.33.6
 ```
-Make sure that you have non-interleaved fastq files of forward and reverse reads. These should have an *R1* tag in their filename.
+Make sure that you have non-interleaved fastq.gz files of forward and reverse reads. These should have an *R1* tag in their filename, e.g.: sample.R1.fastq.gz.
+
+
 ### Start assembly
 Create R1.csv and R2.csv files for megahit
 ```
