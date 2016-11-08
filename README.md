@@ -56,6 +56,8 @@ Make sure that you have non-interleaved fastq.gz files of forward and reverse re
 ```
 bash /nfs/vdenef-lab/Shared/Ruben/scripts_metaG/wrappers/Assembly/qc.sh sample_directory
 ```
+Alternatively modify the <code>run_quality.sh</code> or <code>run_quality.pbs</code> scripts to run sequentially.
+
 ### Start assembly
 Create R1.csv and R2.csv files for megahit
 ```
