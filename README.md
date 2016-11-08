@@ -59,12 +59,17 @@ bash /nfs/vdenef-lab/Shared/Ruben/scripts_metaG/wrappers/Assembly/qc.sh sample_d
 Alternatively modify the <code>run_quality.sh</code> or <code>run_quality.pbs</code> scripts to run sequentially.
 
 ### Start assembly
-Create R1.csv and R2.csv files for megahit
+At this point you have multiple softwares to choose from (IDBA_UD/SPAdes/Megahit/...). We choose here for IDBA_UD.
+
+#### IDBA_UD assembly
+
+#### Megahit assembly
+Put all your fastq files from all samples in one folder. Create R1.csv and R2.csv files for Megahit:
 ```
 ls *.R1.fastq | head -c -1 | tr '\n' ',' > R1.csv
 ls *.R2.fastq | head -c -1 | tr '\n' ',' > R2.csv
 ```
-Assemble the reads
+Assemble the reads (do not run this on login nodes).
 ```
-nohup megahit -1 $(<R1.csv) -2 $(<R2.csv) -t 36 -o Assembly --presets meta-large > megahit.out&
+megahit -1 $(<R1.csv) -2 $(<R2.csv) -t 36 -o Assembly --presets meta-large > megahit.out
 ```
