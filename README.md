@@ -55,6 +55,13 @@ Make sure to reconnect to the server in order to update your path.
 Make sure that you have non-interleaved fastq.gz files of forward and reverse reads. These should have an *R1* tag in their filename and saved in a directory called *sample*, e.g.: sample/sample.R1.fastq.gz.
 
 **IMPORTANT** The adapter trimming in qc.sh is standard set for Truseq paired-end libraries. You will have to adjust this if this is different for you by changing the path in the shell script to the correct fasta file of the adapters located at /home/your_username/Trimmomatic-0.36/adapters.
+
+**IMPORTANT** In case you are unsure which adapters are present in the sequences, you can download bbtools
+(https://sourceforge.net/projects/bbmap/) and run the following code on a subsample of the data. The resulting consensus sequences of the adapters will stored in adapters.bbmerge.fasta
+```
+bbmerge.sh in1=*R1.fastq in2=*R2.fastq outa=adapters.bbmerge.fasta reads=1m
+```
+Run quality trimming:
 ```
 bash /nfs/vdenef-lab/Shared/Ruben/scripts_metaG/wrappers/Assembly/qc.sh sample_directory
 ```
