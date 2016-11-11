@@ -20,7 +20,7 @@ export PATH=~/.local/bin:$PATH
 ### General software installations
 Modules required for quality trimming of reads (adapter contamination/read quality). 
 
-Install trimmomatic in your path (http://www.usadellab.org/cms/?page=trimmomatic) to remove adapters. Unzip binary (source may give difficulties) in your local directory:
+Install trimmomatic in your path (http://www.usadellab.org/cms/?page=trimmomatic). We will use the adapter databases available there to do adater trimming with scythe. Unzip binary (source may give difficulties) in your local directory:
 ```
 unzip Trimmomatic-Src-0.36.zip
 ```
