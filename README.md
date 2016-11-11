@@ -59,7 +59,7 @@ Make sure that you have non-interleaved fastq.gz files of forward and reverse re
 **IMPORTANT** In case you are unsure which adapters are present in the sequences, you can download bbtools
 (https://sourceforge.net/projects/bbmap/) unzip the tar.gz and add the directory to your export path. Then run the following code on a subsample of a sample (e.g., 1m reads). The resulting consensus sequences of the adapters will stored in <code>adapters.bbmerge.fasta</code>
 ```
-bbmerge.sh in1=*R1.fastq in2=*R2.fastq outa=adapters.bbmerge.fasta reads=1m
+bbmerge.sh in1=$(echo *R1.fastq) in2=$(echo *R2.fastq) outa=adapters.bbmerge.fasta reads=1m
 ```
 Run quality trimming:
 ```
