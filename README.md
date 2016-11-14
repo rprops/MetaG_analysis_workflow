@@ -67,7 +67,12 @@ bash /nfs/vdenef-lab/Shared/Ruben/scripts_metaG/wrappers/Assembly/qc.sh sample_d
 ```
 Alternatively modify the <code>run_quality.sh</code> or <code>run_quality.pbs</code> scripts to run sequentially.
 
+Copy Fastqc files to new folder (adjust the paths)
+```
+rsync -a --include '*/' --include '*fastqc.html' --exclude '*' /scratch/vdenef_fluxm/rprops/DESMAN/metaG/Nextera /scratch/vdenef_fluxm/rprops/DESMAN/metaG/FASTQC --progress
+```
 ### Optional: take random subsample from each sample
+This can be required for co-assemblies which are too big.
 
 ### Start co-assembly
 At this point you have multiple softwares to choose from (IDBA_UD/Megahit/...). We choose here for IDBA_UD.
