@@ -17,54 +17,6 @@ Or add it to your path:
 export PATH=~/.local/bin:$PATH
 ```
 
-### General software installations
-Modules required for quality trimming of reads (adapter contamination/read quality). 
-
-Install trimmomatic in your path (http://www.usadellab.org/cms/?page=trimmomatic). We will use the adapter databases available there to do adater trimming with scythe. Unzip binary (source may give difficulties) in your local directory:
-```
-unzip Trimmomatic-Src-0.36.zip
-```
-and add it to your path (.bash_profile):
-```
-export PATH=/home/yourusername/Trimmomatic-0.36:$PATH
-```
-Check if permissions allow execution.
-```
-cd ./Trimmomatic-0.36
-ls -l
-```
-```
-module load Scythe/0.993b sickle/1.33.6
-```
-Scythe is not installed on flux so install it in your home directory and add it to the path similar to Trimmomatic. 
-```
-cd
-git clone https://github.com/vsbuffalo/scythe.git
-cd scythe
-make all
-```
-Also install Fastqc binary from here: http://www.bioinformatics.babraham.ac.uk/projects/download.html#fastqc. And add to path (see trimmomatic) and set permissions.
-```
-cd ./FastQC
-chmod 755 fastqc
-```
-Install Ray assembler (get latest version from https://github.com/sebhtml/Ray-Releases/). Make sure to have <code>openmpi</code> and <code>gcc</code> loaded. And add to path.
-```
-cd 
-tar xjf Ray-2.3.1.tar.bz2
-cd Ray-2.3.1
-make
-cp Ray /home/user/bin
-```
-Install setqk for randomly subsampling fastq files.
-```
-cd
-git clone https://github.com/lh3/seqtk.git
-cd seqtk
-make
-cp seqtk /home/user/bin
-```
-Make sure to reconnect to the server in order to update your path.
 
 ### Quality trimming of reads
 
