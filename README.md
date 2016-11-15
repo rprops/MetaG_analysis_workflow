@@ -54,6 +54,15 @@ cd
 tar xjf Ray-2.3.1.tar.bz2
 cd Ray-2.3.1
 make
+cp Ray /home/user/bin
+```
+Install setqk for randomly subsampling fastq files.
+```
+cd
+git clone https://github.com/lh3/seqtk.git
+cd seqtk
+make
+cp seqtk /home/user/bin
 ```
 Make sure to reconnect to the server in order to update your path.
 
