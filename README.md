@@ -51,7 +51,7 @@ At this point you have multiple softwares to choose from (IDBA_UD/Megahit/...). 
 #### IDBA_UD assembly
 
 #### Ray assembly
-Make sure <code>gcc</code> and <code>openmpi<code> modules are loaded.
+Make sure <code>gcc</code> and <code>openmpi</code> modules are loaded.
 
 #### Megahit assembly
 Put all your fastq files from all samples in one folder. Create R1.csv and R2.csv files for Megahit:
