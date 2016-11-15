@@ -17,9 +17,9 @@ Or add it to your path:
 export PATH=~/.local/bin:$PATH
 ```
 ### Other software
-Look [here] (https://github.com/rprops/DESMAN/wiki/Software-installations) to find out if you need to install anything else for the analysis: 
+Look [here] (https://github.com/rprops/DESMAN/wiki/Software-installations) to find out if you need to install anything else for the analysis. Make sure all these modules are loaded.
 
-### Quality trimming of reads
+### Step 1: Quality trimming of reads
 
 Make sure that you have non-interleaved fastq.gz files of forward and reverse reads. These should have an *R1* tag in their filename and saved in a directory called *sample*, e.g.: sample/sample.R1.fastq.gz.
 
@@ -51,6 +51,7 @@ At this point you have multiple softwares to choose from (IDBA_UD/Megahit/...). 
 #### IDBA_UD assembly
 
 #### Ray assembly
+Make sure <code>gcc</code> and <code>openmpi<code> modules are loaded.
 
 #### Megahit assembly
 Put all your fastq files from all samples in one folder. Create R1.csv and R2.csv files for Megahit:
