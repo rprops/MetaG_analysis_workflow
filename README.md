@@ -48,7 +48,7 @@ Also install Fastqc binary from here: http://www.bioinformatics.babraham.ac.uk/p
 cd ./FastQC
 chmod 755 fastqc
 ```
-Install Ray assembler (get latest version from https://github.com/sebhtml/Ray-Releases/). Make sure to have <code>openmpi</code> and <code>gcc</code> loaded.
+Install Ray assembler (get latest version from https://github.com/sebhtml/Ray-Releases/). Make sure to have <code>openmpi</code> and <code>gcc</code> loaded. And add to path.
 ```
 cd 
 tar xjf Ray-2.3.1.tar.bz2
