@@ -88,8 +88,10 @@ Copy Fastqc files to new folder (adjust the paths)
 rsync -a --include '*/' --include '*fastqc.html' --exclude '*' /scratch/vdenef_fluxm/rprops/DESMAN/metaG/Nextera /scratch/vdenef_fluxm/rprops/DESMAN/metaG/FASTQC --progress
 ```
 ### Optional: take random subsample from each sample
-This can be required for co-assemblies which are too big.
-
+This can be required for co-assemblies which are too big. <code>-s</code> sets seed for random sampling.
+```
+seqtk sample -s 777 *.fastq 5000000 > *.fastq
+```
 ### Start co-assembly
 At this point you have multiple softwares to choose from (IDBA_UD/Megahit/...). We choose here for IDBA_UD.
 
