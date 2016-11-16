@@ -49,8 +49,11 @@ seqtk sample -s 777 *.fastq 5000000 > *.fastq
 ### Step 2: Start co-assembly
 At this point you have multiple softwares to choose from (IDBA_UD/Megahit/...). We choose here for IDBA_UD.
 
-#### IDBA_UD assembly
-
+#### IDBA-UD assembly
+Merge all interleaved files to one file with the following shell script:
+```
+bash assembly_prep.sh
+```
 #### Ray assembly
 Make sure <code>gcc</code> and <code>openmpi</code> modules are loaded.
 
