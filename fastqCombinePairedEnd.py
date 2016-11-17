@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """Resynchronize 2 fastq or fastq.gz files (R1 and R2) after they have been
 trimmed and cleaned
-
+Credit to: https://github.com/enormandeau/Scripts/blob/master/fastqCombinePairedEnd.py
 WARNING! This program assumes that the fastq file uses EXACTLY four lines per
     sequence
 
