@@ -40,8 +40,15 @@ Copy Fastqc files to new folder (adjust the paths)
 ```
 rsync -a --include '*/' --include '*fastqc.html' --exclude '*' /scratch/vdenef_fluxm/rprops/DESMAN/metaG/Nextera /scratch/vdenef_fluxm/rprops/DESMAN/metaG/FASTQC --progress
 ```
-#### Optional: take random subsample from each sample
-This can be required for co-assemblies which are too big. You can check the number of reads in the interleaved fasta file with the <code>sample_size.sh</code>. This will store the sample sizes in the <code>sample_sizes.txt</code> file. Run this in the directory where your samples are located. Then use seqtk to randomly subsample your fasta files to the desired sample size. <code>-s</code> sets seed for random sampling.
+#### Optional: normalize data based on coverage (BBNorm)
+This can be required for co-assemblies which are too big (see: [here] (http://jgi.doe.gov/data-and-tools/bbtools/bb-tools-user-guide/bbnorm-guide/)). First estimate memory requirements based on number of unique kmers using <code>loglog.sh</code>
+```
+loglog.sh in=merged_dt_int.fasta
+bbnorm.sh in=merged_dt_int.fasta out=merged_dt_int_normalized.fasta target=100 min=5
+```
+**Alternative** Random subsampling of reads. Works if you are interested in abundant taxa.
+
+You can check the number of reads in the interleaved fasta file with the <code>sample_size.sh</code>. This will store the sample sizes in the <code>sample_sizes.txt</code> file. Run this in the directory where your samples are located. Then use seqtk to randomly subsample your fasta files to the desired sample size. <code>-s</code> sets seed for random sampling.
 ```
 bash sample_size.sh
 seqtk sample -s 777 *.fastq 5000000 > *.fastq
