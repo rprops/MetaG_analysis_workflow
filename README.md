@@ -40,13 +40,7 @@ Copy Fastqc files to new folder (adjust the paths)
 ```
 rsync -a --include '*/' --include '*fastqc.html' --exclude '*' /scratch/vdenef_fluxm/rprops/DESMAN/metaG/Nextera /scratch/vdenef_fluxm/rprops/DESMAN/metaG/FASTQC --progress
 ```
-#### Optional: normalize data based on coverage (BBNorm)
-This can be required for co-assemblies which are too big (see: [here] (http://jgi.doe.gov/data-and-tools/bbtools/bb-tools-user-guide/bbnorm-guide/)). First estimate memory requirements based on number of unique kmers using <code>loglog.sh</code>
-```
-loglog.sh in=merged_dt_int.fasta
-bbnorm.sh in=merged_dt_int.fasta out=merged_dt_int_normalized.fasta target=100 min=5
-```
-**Alternative** Random subsampling of reads. Works if you are interested in abundant taxa.
+#### Random subsampling of reads. Works if you are interested in abundant taxa.
 
 You can check the number of reads in the interleaved fasta file with the <code>sample_size.sh</code>. This will store the sample sizes in the <code>sample_sizes.txt</code> file. Run this in the directory where your samples are located. Then use seqtk to randomly subsample your fasta files to the desired sample size. <code>-s</code> sets seed for random sampling.
 ```
@@ -61,6 +55,27 @@ Merge all interleaved files to one file with the following shell script:
 ```
 bash assembly_prep.sh
 ```
+**Optional:** normalize data based on coverage (BBNorm)
+This can be required for co-assemblies which are too big (see: [here] (http://jgi.doe.gov/data-and-tools/bbtools/bb-tools-user-guide/bbnorm-guide/)). First estimate memory requirements based on number of unique kmers using <code>loglog.sh</code>. Run this in a pbs script (due to memory requirements).
+```
+loglog.sh in=merged_dt_int.fasta
+bbnorm.sh in=merged_dt_int.fasta out=merged_dt_int_normalized.fasta target=100 min=5
+```
+Due to the normalization it can happen that some paired reads may have lost one of their mates. Therefore we must split the normalized fasta file and recombine them to a single fasta file (without the unpaired sequences):
+```
+# Script courtesy of https://github.com/MadsAlbertsen/miscperlscripts
+# Split interleaved fasta
+/nfs/vdenef-lab/Shared/Ruben/scripts_metaG/SeqTools/splitpe.fasta.pl merged_dt_int_normalized.100.5.fasta
+# Interleave fasta
+/nfs/vdenef-lab/Shared/Ruben/scripts_metaG/SeqTools/interleave.pl -fwd p1.fa -rev p2.fa -o merged_dt_int_normalized.100.5_pe
+```
+Now run idba_ud
+```
+
+```
+
+
+
 #### Ray assembly
 Make sure <code>gcc</code> and <code>openmpi</code> modules are loaded.
 
