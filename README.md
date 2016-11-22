@@ -59,33 +59,44 @@ bash assembly_prep.sh
 This can be required for co-assemblies which are too big (see: [here] (http://jgi.doe.gov/data-and-tools/bbtools/bb-tools-user-guide/bbnorm-guide/)). First estimate memory requirements based on number of unique kmers using <code>loglog.sh</code>. Run this in a pbs script (due to memory requirements).
 ```
 loglog.sh in=merged_dt_int.fasta
-bbnorm.sh in=merged_dt_int.fasta out=merged_dt_int_normalized.fasta target=100 min=5
+bbnorm.sh in=merged_dt_int.fasta out=merged_dt_int_normalized.100.5.fasta target=100 min=5
 ```
-Due to the normalization it can happen that some paired reads may have lost one of their mates. Therefore we must split the normalized fasta file and recombine them to a single fasta file (without the unpaired sequences):
+Due to the normalization some paired reads will have lost their mate. Therefore we must split the normalized fasta file and recombine them to a single fasta file (without the unpaired sequences). Run the below code in a pbs script. Adjust the pattern <code>:1</code> or <code>:2</code> to reflect the R1/R2 read names in your sequence data. Also adjust 
 ```
-# Script courtesy of https://github.com/MadsAlbertsen/miscperlscripts
-# Split interleaved fasta
-/nfs/vdenef-lab/Shared/Ruben/scripts_metaG/SeqTools/splitpe.fasta.pl merged_dt_int_normalized.100.5.fasta
-# Interleave fasta
-/nfs/vdenef-lab/Shared/Ruben/scripts_metaG/SeqTools/interleave.pl -fwd p1.fa -rev p2.fa -o merged_dt_int_normalized.100.5_pe
-```
-Now run idba_ud
+# Generate list of R1 and R2 reads
+grep " 1:" merged_dt_int_normalized.100.5.fasta | sed "s/>//g" > list.R1
+grep " 2:" merged_dt_int_normalized.100.5.fasta | sed "s/>//g" > list.R2
+# Extract R1 and R2 reads from interleaved file using the filterbyname.sh script from BBmap
+filterbyname.sh in=merged_dt_int_normalized.100.5.fasta names=list.R1 out=merged_dt_int_normalized.100.5.R1.fasta -include t
+filterbyname.sh in=merged_dt_int_normalized.100.5.fasta names=list.R2 out=merged_dt_int_normalized.100.5.R2.fasta -include t
+# Interleave R1/R2 reads using inhouse perl script (author: Sunit Jain)
+/nfs/vdenef-lab/Shared/Ruben/scripts_metaG/SeqTools/interleave.pl -fwd merged_dt_int_normalized.100.5.R1.fasta -rev merged_dt_int_normalized.100.5.R2.fasta -o remerged_dt_int_normalized.100.5
 ```
 
+Now run idba_ud (you may have to adjust the parameters.
 ```
-
-
+idba_ud -o idba_k52_100_s8 -r remerged_dt_int_normalized.100.5.fasta --num_threads ${PBS_NP} --mink 52 --maxk 100 --step 8
+```
+In case you run this on flux you'll have to add the following line of code above your actual code to allow openMP to run multithreaded.
+```
+# On Flux, to use OpenMP, you need to explicitly tell OpenMP how many threads to use.
+export OMP_NUM_THREADS=${PBS_NP}
+```
 
 #### Ray assembly
 Make sure <code>gcc</code> and <code>openmpi</code> modules are loaded.
 
 #### Megahit assembly
-Put all your fastq files from all samples in one folder. Create R1.csv and R2.csv files for Megahit:
+Megahit is optimized for metagenomic assemblies, uses low memory and is insensitive to coverage-based normalization. So you can run this on quality trimmed read files. Read files should not be interleaved. When using the <code>qc.sh</code> for quality trimming you will have to remove single reads by using the <code>fastqCombinePairedEnd.py</code> script found [here] (https://github.com/enormandeau/Scripts/blob/master/fastqCombinePairedEnd.py). Example usage:
+```
+python /nfs/vdenef-lab/Shared/Ruben/scripts_metaG/SeqTools/fastqCombinePairedEnd.py *rev* *fwd*
+```
+Put all your paired end fastq files from all samples in one folder. Create R1.csv and R2.csv files for Megahit:
 ```
 ls *R1.fastq | head -c -1 | tr '\n' ',' > R1.csv
 ls *R2.fastq | head -c -1 | tr '\n' ',' > R2.csv
 ```
-Assemble the reads (do not run this on login nodes).
+Assemble the reads (do this on flux).
 ```
-megahit -1 $(<R1.csv) -2 $(<R2.csv) -t 36 -o Assembly --presets meta-large > megahit.out
+megahit -1 $(<R1.csv) -2 $(<R2.csv) -t 40 -o Assembly --presets meta-large > megahit.out
 ```
