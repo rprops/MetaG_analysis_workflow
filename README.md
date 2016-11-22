@@ -98,5 +98,5 @@ ls *R2.fastq | head -c -1 | tr '\n' ',' > R2.csv
 ```
 Assemble the reads (do this on flux).
 ```
-megahit -1 $(<R1.csv) -2 $(<R2.csv) -t 40 -o Assembly --presets meta-large > megahit.out
+megahit -1 $(<R1.csv) -2 $(<R2.csv) -t 40 -o Assembly --presets meta-sensitive > megahit.out
 ```
