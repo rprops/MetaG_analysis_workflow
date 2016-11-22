@@ -77,7 +77,7 @@ Now run idba_ud (you may have to adjust the parameters.
 ```
 idba_ud -o idba_k52_100_s8 -r remerged_dt_int_normalized.100.5.fasta --num_threads ${PBS_NP} --mink 52 --maxk 100 --step 8
 ```
-In case you run this on flux you'll have to add the following line of code above your actual code to allow openMP to run multithreaded.
+In case you run this on flux you'll have to add the following line of code above your actual code to allow openmpi to run multithreaded.
 ```
 # On Flux, to use OpenMP, you need to explicitly tell OpenMP how many threads to use.
 export OMP_NUM_THREADS=${PBS_NP}
