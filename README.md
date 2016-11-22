@@ -48,7 +48,7 @@ bash sample_size.sh
 seqtk sample -s 777 *.fastq 5000000 > *.fastq
 ```
 ### Step 2: Start co-assembly
-At this point you have multiple softwares to choose from (IDBA-UD/Megahit/...). We choose here for IDBA-UD.
+At this point you have multiple assemblers to choose from (IDBA-UD/Megahit/...). We choose here for IDBA-UD.
 
 #### IDBA-UD assembly
 Merge all interleaved files to one file with the following shell script:
