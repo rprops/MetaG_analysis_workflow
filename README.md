@@ -82,8 +82,8 @@ Make sure <code>gcc</code> and <code>openmpi</code> modules are loaded.
 #### Megahit assembly
 Put all your fastq files from all samples in one folder. Create R1.csv and R2.csv files for Megahit:
 ```
-ls *.R1.fastq | head -c -1 | tr '\n' ',' > R1.csv
-ls *.R2.fastq | head -c -1 | tr '\n' ',' > R2.csv
+ls *R1.fastq | head -c -1 | tr '\n' ',' > R1.csv
+ls *R2.fastq | head -c -1 | tr '\n' ',' > R2.csv
 ```
 Assemble the reads (do not run this on login nodes).
 ```
