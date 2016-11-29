@@ -101,3 +101,25 @@ Note to self: required 1.5 TB of RAM for my samples...
 ```
 megahit -1 $(<R1.csv) -2 $(<R2.csv) -t 40 -o Assembly --presets meta-sensitive > megahit.out
 ```
+
+### Megahit - Binning
+Now we will bin the contigs using CONCOCT.
+First cut your contigs before running CONCOCT (make sure CONCOCT is added to your path).
+```
+module load python-anaconda2/201607
+module load gsl
+
+mkdir contigs
+python cut_up_fasta.py -c 10000 -o 0 -m megahit_assembly_sensitive/final.contigs.fa > contigs/final_contigs_c10K.fa
+```
+Then map contigs back onto the cut contigs. First make index:
+```
+cd contigs
+bwa index final_contigs_c10K.fa
+cd ..
+```
+Then perform the mapping:
+```
+
+```
+
