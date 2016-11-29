@@ -116,7 +116,7 @@ Then map contigs back onto the cut contigs. First make index:
 ```
 cd contigs
 bwa index final_contigs_c10K.fa
-cd ..
+cd -
 ```
 Then perform the mapping:
 ```
