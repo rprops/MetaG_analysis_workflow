@@ -106,7 +106,7 @@ We use quast for this purpose (adjust path for your specific assembly):
 ```
 quast.py -f --meta -t 20 -l "Contigs"  megahit_assembly_sensitive/final.contigs.fa
 ```
-For IDBA-UD this can be run both on the scaffolds and the contigs.
+For IDBA-UD this can be run both on the scaffolds and the contigs. In general, the contigs are more reliable.
 
 ### Step 4: Binning
 #### Megahit
