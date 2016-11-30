@@ -119,8 +119,18 @@ cd contigs
 bwa index final_contigs_c10K.fa
 cd -
 ```
-Then perform the mapping:
+Then perform the mapping (will take a while: put this in shell script and submit as job):
 ```
+for file in *R1.fastq
+do
 
+   stub=${file%_R1.fastq}
+
+   echo $stub
+
+   file2=${stub}_R2.fastq
+
+   bwa mem -t 20 contigs/final_contigs_c10K.fa $file $file2 > Map/${stub}.sam
+done
 ```
 #### IDBA_UD
