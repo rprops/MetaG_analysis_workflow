@@ -102,7 +102,8 @@ Note to self: required 1.5 TB of RAM for my samples...
 megahit -1 $(<R1.csv) -2 $(<R2.csv) -t 40 -o Assembly --presets meta-sensitive > megahit.out
 ```
 
-### Megahit - Binning
+### Step 3: Binning
+#### Megahit
 Now we will bin the contigs using CONCOCT.
 First cut your contigs before running CONCOCT (make sure CONCOCT is added to your path).
 ```
@@ -122,4 +123,4 @@ Then perform the mapping:
 ```
 
 ```
-
+#### IDBA_UD
