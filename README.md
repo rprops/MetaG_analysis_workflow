@@ -101,17 +101,23 @@ Note to self: required 1.5 TB of RAM for my samples...
 ```
 megahit -1 $(<R1.csv) -2 $(<R2.csv) -t 40 -o Assembly --presets meta-sensitive > megahit.out
 ```
+### Step 3: Generating assembly stats
+We use quast for this purpose (adjust path for your specific assembly):
+```
+quast.py -f --meta -t 20 -l "Contigs"  megahit_assembly_sensitive/final.contigs.fa
+```
+For IDBA-UD this can be run both on the scaffolds and the contigs.
 
-### Step 3: Binning
+### Step 4: Binning
 #### Megahit
 Now we will bin the contigs using CONCOCT.
-First cut your contigs before running CONCOCT (make sure CONCOCT is added to your path).
+First cut your large contigs before running CONCOCT (make sure CONCOCT is in your path).
 ```
 module load python-anaconda2/201607
 module load gsl
 
 mkdir contigs
-python cut_up_fasta.py -c 10000 -o 0 -m megahit_assembly_sensitive/final.contigs.fa > contigs/final_contigs_c10K.fa
+cut_up_fasta.py -c 10000 -o 0 -m megahit_assembly_sensitive/final.contigs.fa > contigs/final_contigs_c10K.fa
 ```
 Then map contigs back onto the cut contigs. First make index:
 ```
@@ -133,4 +139,27 @@ do
    bwa mem -t 20 contigs/final_contigs_c10K.fa $file $file2 > Map/${stub}.sam
 done
 ```
-#### IDBA_UD
+#### IDBA-UD
+IDBA-UD will also make scaffolds based on the contigs. So the two primary output files are:
+```
+scaffold.fa
+contig.fa
+```
+First cut your large contigs before running CONCOCT (make sure CONCOCT is in your path).
+```
+module load python-anaconda2/201607
+module load gsl
+
+mkdir contigs
+cut_up_fasta.py -c 10000 -o 0 -m idba_k52_100_s8/contig.fa > contigs/final_contigs_c10K.fa
+```
+Make an index for your contigs fasta.
+```
+cd contigs
+bwa index final_contigs_c10K.fa
+cd -
+```
+Then map reads.
+```
+
+```
