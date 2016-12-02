@@ -173,3 +173,4 @@ do
    bwa mem -t 20 contigs/final_contigs_c10K.fa $file $file2 > Map/${stub}.sam
 done
 ```
+Make sure you install bedtools2 for the next step.
