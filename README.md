@@ -174,3 +174,8 @@ do
 done
 ```
 Make sure you install bedtools2 for the next step.
+
+Once you've formatted the coverage files we can start binning using CONCOCT:
+```
+module load python-anaconda2/201607
+```
