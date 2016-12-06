@@ -175,7 +175,12 @@ done
 ```
 Make sure you install bedtools2 for the next step.
 
-Once you've formatted the coverage files we can start binning using CONCOCT:
+Once you've formatted the coverage files we can start binning using CONCOCT (use 40 core in pbs script to maximize on C-CONCOCT):
 ```
-module load python-anaconda2/201607
+module load python-anaconda2/201607 gsl
+mkdir Concoct
+cd Concoct
+mv ../Coverage.tsv .
+concoct --coverage_file Coverage.tsv --composition_file ../contigs/final_contigs_c10K.fa -s 777 --no_original_data
+cd ..
 ```
