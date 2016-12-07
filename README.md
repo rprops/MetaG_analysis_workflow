@@ -187,6 +187,7 @@ concoct --coverage_file Coverage.tsv --composition_file ../contigs/final_contigs
 cd ..
 ```
 ### Alternative binning with Binsanity (multistep - coverage/GC/kmer based)
+Opted here for the <code>Binsanity-wf</code> function since it automates the refinment using <code>CheckM</code>.
 ```
 Binsanity-profile -o idba-assembly --contigs ../contigs/contigs.id.txt -i ../contigs/final_contigs_c10K.fa -s ../Map --transform Scale
 Binsanity-wf -f ../contigs/-l final_contigs_c10K.fa -c idba-assembly.cov.x100.lognorm
