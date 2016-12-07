@@ -138,6 +138,7 @@ do
 
    bwa mem -t 20 contigs/final_contigs_c10K.fa $file $file2 > Map/${stub}.sam
 done
+~/DESMAN/scripts/Collate.pl Map | tr "," "\t" > Coverage.tsv
 ```
 #### IDBA-UD
 IDBA-UD will also make scaffolds based on the contigs. So the two primary output files are:
@@ -172,6 +173,7 @@ do
 
    bwa mem -t 20 contigs/final_contigs_c10K.fa $file $file2 > Map/${stub}.sam
 done
+~/DESMAN/scripts/Collate.pl Map | tr "," "\t" > Coverage.tsv
 ```
 Make sure you install bedtools2 for the next step.
 
@@ -183,4 +185,9 @@ cd Concoct
 mv ../Coverage.tsv .
 concoct --coverage_file Coverage.tsv --composition_file ../contigs/final_contigs_c10K.fa -s 777 --no_original_data
 cd ..
+```
+### Alternative binning with Binsanity (multistep - coverage/GC/kmer based)
+```
+Binsanity-profile -o idba-assembly --contigs ../contigs/contigs.id.txt -i ../contigs/final_contigs_c10K.fa -s ../Map --transform Scale
+Binsanity-wf -f ../contigs/-l final_contigs_c10K.fa -c idba-assembly.cov.x100.lognorm
 ```
