@@ -119,7 +119,7 @@ module load gsl
 mkdir contigs
 cut_up_fasta.py -c 10000 -o 0 -m megahit_assembly_sensitive/final.contigs.fa > contigs/final_contigs_c10K.fa
 ```
-Then map contigs back onto the cut contigs (**warning:** fastq files must not contain unpaired reads). First make index:
+Then map reads back onto the cut contigs (**warning:** fastq files must not contain unpaired reads). First make index:
 ```
 cd contigs
 bwa index final_contigs_c10K.fa
