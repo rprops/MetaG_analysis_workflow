@@ -193,7 +193,8 @@ cd ..
 Opted here for the <code>Binsanity-wf</code> function since it automates the refinment using <code>CheckM</code>.
 **NOTICE**: be aware that your sample names in the BAM files should be split by anything other than ".".
 Make sure that the bam files are sorted and indexed!!!:
-__bedtools multicov depends upon index BAM files in order to count the number of overlaps in each BAM file. As such, each BAM file should be position sorted (samtool sort aln.bam aln.sort) and indexed (samtools index aln.sort.bam) with either samtools or bamtools.__
+
+*bedtools multicov depends upon index BAM files in order to count the number of overlaps in each BAM file. As such, each BAM file should be position sorted (samtool sort aln.bam aln.sort) and indexed (samtools index aln.sort.bam) with either samtools or bamtools.*
 
 ```
 Binsanity-profile -o idba-assembly --contigs ../contigs/contigs.id.txt -i ../contigs/final_contigs_c10K.fa -s ../Map --transform Scale
