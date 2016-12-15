@@ -108,7 +108,9 @@ quast.py -f --meta -t 20 -l "Contigs"  megahit_assembly_sensitive/final.contigs.
 ```
 For IDBA-UD this can be run both on the scaffolds and the contigs. In general, the contigs are more reliable.
 
-### Step 4: Binning
+### Step 4A: CONCOCT binning
+CONCOCT binning is not optimal for large co-assemblies since it combines both coverage and kmer/GC% in one step. This will result in very slow clustering for complex data sets. So go for Binsanity, if this is the case.
+
 #### Megahit
 Now we will bin the contigs using CONCOCT.
 First cut your large contigs before running CONCOCT (make sure CONCOCT is in your path).
@@ -186,8 +188,10 @@ mv ../Coverage.tsv .
 concoct --coverage_file Coverage.tsv --composition_file ../contigs/final_contigs_c10K.fa -s 777 --no_original_data
 cd ..
 ```
+### Step 4B: Binsanity binning
 ### Alternative binning with Binsanity (multistep - coverage/GC/kmer based)
 Opted here for the <code>Binsanity-wf</code> function since it automates the refinment using <code>CheckM</code>.
+**NOTICE**: be aware that your sample names in the BAM files should be split by anything other than ".".
 ```
 Binsanity-profile -o idba-assembly --contigs ../contigs/contigs.id.txt -i ../contigs/final_contigs_c10K.fa -s ../Map --transform Scale
 Binsanity-wf -f ../contigs/-l final_contigs_c10K.fa -c idba-assembly.cov.x100.lognorm
