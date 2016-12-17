@@ -142,6 +142,26 @@ do
 done
 ~/DESMAN/scripts/Collate.pl Map | tr "," "\t" > Coverage.tsv
 ```
+After the mapping create .bam files using samtools. Make sure you install bedtools2 for the next step.
+**IMPORTANT:**Make sure you have samtools >v1.x!
+```
+#/bin/bash
+
+set -e
+
+for file in Map/*.sam
+do
+    stub=${file%.sam}
+    stub2=${stub#Map\/}
+    echo $stub
+    samtools view -h -b -S $file > ${stub}.bam
+    samtools view -b -F 4 ${stub}.bam > ${stub}.mapped.bam
+    samtools sort -m 1000000000 ${stub}.mapped.bam -o ${stub}.mapped.sorted.bam
+    samtools index ${stub}.mapped.sorted.bam
+    bedtools genomecov -ibam ${stub}.mapped.sorted.bam -g contigs/final_contigs_c10K.len > ${stub}_cov.txt
+done
+
+```
 #### IDBA-UD
 IDBA-UD will also make scaffolds based on the contigs. So the two primary output files are:
 ```
@@ -175,12 +195,30 @@ do
 
    bwa mem -t 20 contigs/final_contigs_c10K.fa $file $file2 > Map/${stub}.sam
 done
+
+```
+After the mapping create .bam files using samtools. Make sure you install bedtools2 for the next step.
+**IMPORTANT:**Make sure you have samtools >v1.x!
+```
+#/bin/bash
+
+set -e
+
+for file in Map/*.sam
+do
+    stub=${file%.sam}
+    stub2=${stub#Map\/}
+    echo $stub
+    samtools view -h -b -S $file > ${stub}.bam
+    samtools view -b -F 4 ${stub}.bam > ${stub}.mapped.bam
+    samtools sort -m 1000000000 ${stub}.mapped.bam -o ${stub}.mapped.sorted.bam
+    samtools index ${stub}.mapped.sorted.bam
+    bedtools genomecov -ibam ${stub}.mapped.sorted.bam -g contigs/final_contigs_c10K.len > ${stub}_cov.txt
+done
 ~/DESMAN/scripts/Collate.pl Map | tr "," "\t" > Coverage.tsv
 ```
-Make sure you install bedtools2 for the next step.
-
 Once you've formatted the coverage files we can start binning using CONCOCT (use 40 core in pbs script to maximize on C-CONCOCT):
-```
+
 module load python-anaconda2/201607 gsl
 mkdir Concoct
 cd Concoct
