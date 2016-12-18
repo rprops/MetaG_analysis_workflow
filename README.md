@@ -199,6 +199,7 @@ done
 ```
 After the mapping create .bam files using samtools. Make sure you install bedtools2 for the next step.
 **IMPORTANT:**Make sure you have samtools >v1.3!
+Use <code>-@</code> to multithread and <code>-m</code> to adjust memory usage.
 ```
 #/bin/bash
 
@@ -211,7 +212,7 @@ do
     echo $stub
     samtools view -h -b -S $file > ${stub}.bam
     samtools view -b -F 4 ${stub}.bam > ${stub}.mapped.bam
-    samtools sort -m 1000000000 ${stub}.mapped.bam -o ${stub}.mapped.sorted.bam
+    samtools sort -m 1000000000 ${stub}.mapped.bam -o ${stub}.mapped.sorted.bam -@ 8 
     samtools index ${stub}.mapped.sorted.bam
     bedtools genomecov -ibam ${stub}.mapped.sorted.bam -g contigs/final_contigs_c10K.len > ${stub}_cov.txt
 done
