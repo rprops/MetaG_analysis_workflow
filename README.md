@@ -143,7 +143,7 @@ done
 ~/DESMAN/scripts/Collate.pl Map | tr "," "\t" > Coverage.tsv
 ```
 After the mapping create .bam files using samtools. Make sure you install bedtools2 for the next step.
-**IMPORTANT:**Make sure you have samtools >v1.x!
+**IMPORTANT:**Make sure you have samtools >v1.3!
 ```
 #/bin/bash
 
@@ -198,7 +198,7 @@ done
 
 ```
 After the mapping create .bam files using samtools. Make sure you install bedtools2 for the next step.
-**IMPORTANT:**Make sure you have samtools >v1.x!
+**IMPORTANT:**Make sure you have samtools >v1.3!
 ```
 #/bin/bash
 
