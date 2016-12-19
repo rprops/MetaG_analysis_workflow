@@ -219,7 +219,7 @@ done
 ~/DESMAN/scripts/Collate.pl Map | tr "," "\t" > Coverage.tsv
 ```
 Once you've formatted the coverage files we can start binning using CONCOCT (use 40 core in pbs script to maximize on C-CONCOCT):
-
+```
 module load python-anaconda2/201607 gsl
 mkdir Concoct
 cd Concoct
