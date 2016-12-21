@@ -218,15 +218,26 @@ do
 done
 ~/DESMAN/scripts/Collate.pl Map | tr "," "\t" > Coverage.tsv
 ```
-Once you've formatted the coverage files we can start binning using CONCOCT (use 40 core in pbs script to maximize on C-CONCOCT):
+Once you've formatted the coverage files we can start binning using CONCOCT (use 40 core in pbs script to maximize on C-CONCOCT). We perform the binning on contigs>2000bp and put the kmer-signature on 0. Otherwise, for this large of an assembly CONCOCT does not converge within 10 days.
 ```
 module load python-anaconda2/201607 gsl
 mkdir Concoct
 cd Concoct
 mv ../Coverage.tsv .
-concoct --coverage_file Coverage.tsv --composition_file ../contigs/final_contigs_c10K.fa -s 777 --no_original_data
+concoct --coverage_file Coverage.tsv --composition_file ../contigs/final_contigs_c10K.fa -s 777 --no_original_data -l 2000 -k 0
 cd ..
 ```
+After binning we can quickly evaluate the clusters:
+```
+mkdir evaluation-output
+Rscript ~/CONCOCT/scripts/ClusterPlot.R -c clustering_gt2000.csv -p PCA_transformed_data_gt2000.csv -m pca_means_gt2000.csv -r pca_variances_gt2000_dim -l -o evaluation-output/ClusterPlot.pdf
+```
+CONCOCT only outputs a list of bins with the associated contig ids. We further use the functionality of the Phylosift software to extract the corresponding fasta file for each bin (run in pbs script).
+```
+mkdir fasta-bins
+extract_fasta_bins.py ../contigs/final_contigs_c10K.fa ./k0_L2000_diginorm/clustering_gt2000.csv --output_path ./k0_L2000_diginorm/evaluation-output
+```
+
 ### Step 4B: Binsanity binning
 ### Alternative binning with Binsanity (multistep - coverage/GC/kmer based)
 Opted here for the <code>Binsanity-wf</code> function since it automates the refinment using <code>CheckM</code>.
