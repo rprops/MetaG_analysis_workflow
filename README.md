@@ -232,7 +232,7 @@ After binning we can quickly evaluate the clusters:
 mkdir evaluation-output
 Rscript ~/CONCOCT/scripts/ClusterPlot.R -c clustering_gt2000.csv -p PCA_transformed_data_gt2000.csv -m pca_means_gt2000.csv -r pca_variances_gt2000_dim -l -o evaluation-output/ClusterPlot.pdf
 ```
-CONCOCT only outputs a list of bins with the associated contig ids. We further use the functionality of the Phylosift software to extract the corresponding fasta file for each bin (run in pbs script).
+CONCOCT only outputs a list of bins with the associated contig ids. We further use the functionality of the Phylosift software to extract the corresponding fasta file for each bin (run in pbs script). We needs these fasta files later on for CheckM.
 ```
 mkdir fasta-bins
 extract_fasta_bins.py ../contigs/final_contigs_c10K.fa ./k0_L2000_diginorm/clustering_gt2000.csv --output_path ./k0_L2000_diginorm/evaluation-output
