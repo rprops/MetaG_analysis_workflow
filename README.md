@@ -121,6 +121,10 @@ module load gsl
 mkdir contigs
 cut_up_fasta.py -c 10000 -o 0 -m megahit_assembly_sensitive/final.contigs.fa > contigs/final_contigs_c10K.fa
 ```
+**Optional/Necessary** You can at this point already remove short contigs (e.g., < 1000) this will save time in the mapping but also for generating the coverage file.
+```
+reformat.sh in=final_contigs_c10K.fa out=final_contigs_c10K_1000.fa minlength=1000
+```
 Then map reads back onto the cut contigs (**warning:** fastq files must not contain unpaired reads). First make index:
 ```
 cd contigs
@@ -175,6 +179,10 @@ module load gsl
 
 mkdir contigs
 cut_up_fasta.py -c 10000 -o 0 -m idba_k52_100_s8/contig.fa > contigs/final_contigs_c10K.fa
+```
+**Optional/Necessary** You can at this point already remove short contigs (e.g., < 1000) this will save time in the mapping but also for generating the coverage file.
+```
+reformat.sh in=final_contigs_c10K.fa out=final_contigs_c10K_1000.fa minlength=1000
 ```
 Make an index for your contigs fasta.
 ```
