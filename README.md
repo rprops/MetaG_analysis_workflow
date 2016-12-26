@@ -83,9 +83,6 @@ In case you run this on flux you'll have to add the following line of code above
 export OMP_NUM_THREADS=${PBS_NP}
 ```
 
-#### Ray assembly
-Make sure <code>gcc</code> and <code>openmpi</code> modules are loaded.
-
 #### Megahit assembly
 Megahit is optimized for metagenomic assemblies, uses low memory and is insensitive to coverage-based normalization. So you can run this on quality trimmed read files. Read files should not be interleaved. When using the <code>qc.sh</code> for quality trimming you will have to remove single reads by using the <code>fastqCombinePairedEnd.py</code> script found [here] (https://github.com/enormandeau/Scripts/blob/master/fastqCombinePairedEnd.py). Example usage:
 ```
