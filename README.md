@@ -226,24 +226,72 @@ do
 done
 ~/DESMAN/scripts/Collate.pl Map | tr "," "\t" > Coverage.tsv
 ```
-Once you've formatted the coverage files we can start binning using CONCOCT (use 40 core in pbs script to maximize on C-CONCOCT). We perform the binning on contigs>2000bp and put the kmer-signature on 0. Otherwise, for this large of an assembly CONCOCT does not converge within 10 days.
+Once you've formatted the coverage files we can start binning using CONCOCT (use 40 core in pbs script to maximize on C-CONCOCT). We perform the binning on contigs>3000bp and put the kmer-signature on 4.
 ```
 module load python-anaconda2/201607 gsl
 mkdir Concoct
 cd Concoct
 mv ../Coverage.tsv .
-concoct --coverage_file Coverage.tsv --composition_file ../contigs/final_contigs_c10K.fa -s 777 --no_original_data -l 2000 -k 0
+concoct --coverage_file Coverage.tsv --composition_file ../contigs/final_contigs_c10K.fa -s 777 --no_original_data -l 3000 -k 4
 cd ..
 ```
 After binning we can quickly evaluate the clusters:
 ```
 mkdir evaluation-output
-Rscript ~/CONCOCT/scripts/ClusterPlot.R -c clustering_gt2000.csv -p PCA_transformed_data_gt2000.csv -m pca_means_gt2000.csv -r pca_variances_gt2000_dim -l -o evaluation-output/ClusterPlot.pdf
+Rscript ~/CONCOCT/scripts/ClusterPlot.R -c clustering_gt3000.csv -p PCA_transformed_data_gt3000.csv -m pca_means_gt3000.csv -r pca_variances_gt3000_dim -l -o evaluation-output/ClusterPlot.pdf
 ```
 CONCOCT only outputs a list of bins with the associated contig ids. We further use the functionality of the Phylosift software to extract the corresponding fasta file for each bin (run in pbs script). We needs these fasta files later on for CheckM.
 ```
 mkdir fasta-bins
 extract_fasta_bins.py ../contigs/final_contigs_c10K.fa ./k0_L2000_diginorm/clustering_gt2000.csv --output_path ./k0_L2000_diginorm/evaluation-output
+```
+Then run CheckM, this requires pplacer, hmmer and prodigal to be loaded. This will process wil generate an output file <code>bin_stats_mega_k4_L3000.tsv</code> and a plot describing these results, which will be stored in the evaluation-output folder.
+```
+checkm lineage_wf --pplacer_threads 10 -t 10 -x fa -f bin_stats_mega_k4_L3000.tsv ./k4_L3000/fasta-bins ./k4_L3000/tree_folder
+checkm bin_qa_plot ./k4_L3000/tree_folder ./k4_L3000/fasta-bins ./k4_L3000/evaluation-output -x fa --dpi 250
+```
+Next we select some bins and classify them with the following bash script (classify_bins.sh):
+```
+#/bin/bash
+
+# This script classifies selected bins by phylosift.
+
+# Call this script from where you placed the binning output
+# and have stored the bin ID file. The bin ID file is a text file
+# with on each new line a bin ID (e.g. 304). The fasta files for the bins are assumed
+# to be stored in a subdirectory of the main directory (folder/binFolder).
+
+# created by Ruben Props <ruben.props@ugent.be>
+
+#######################################
+##### MAKE PARAMETER CHANGES HERE #####
+#######################################
+
+# Make sure you named the binning folder according to the
+# parameterization (e.g., k4_L3000 for kmer=4 and length threshold=3000)
+k=4
+L=3000
+folder=k${k}_L${L}
+binFolder=fasta-bins
+input=bins2classify.txt
+
+#fasta extension
+ext=fa
+
+# Number of threads
+threads=20
+
+####################################################
+##### DO NOT MAKE ANY CHANGES BEYOND THIS LINE #####
+#####     unless you know what you're doing    #####
+####################################################
+
+cat $input | while read ID
+do
+   echo "[`date`] Starting with bin ${ID}"
+   echo ./${folder}/${binFolder}/${ID}.${ext}
+   phylosift all --threads $threads --output ./${folder}/phylosift_bin_${ID} ./${folder}/${binFolder}/${ID}.${ext}
+done
 ```
 
 ### Step 4B: Binsanity binning
