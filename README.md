@@ -170,7 +170,7 @@ done
 ```
 Once you've formatted the coverage files we can start binning using CONCOCT (use 40 core in pbs script to maximize on C-CONCOCT). We perform the binning on contigs>3000bp and put the kmer-signature on 4.
 ```
-module load python-anaconda2/201607 gsl
+module load gsl
 mkdir Concoct
 cd Concoct
 mv ../Coverage.tsv .
@@ -234,17 +234,4 @@ do
    echo ./${folder}/${binFolder}/${ID}.${ext}
    phylosift all --threads $threads --output ./${folder}/phylosift_bin_${ID} ./${folder}/${binFolder}/${ID}.${ext}
 done
-```
-
-### Step 4B: Binsanity binning
-### Alternative binning with Binsanity (multistep - coverage/GC/kmer based)
-Opted here for the <code>Binsanity-wf</code> function since it automates the refinment using <code>CheckM</code>.
-**NOTICE**: be aware that your sample names in the BAM files should be split by anything other than ".".
-Make sure that the bam files are sorted and indexed!!!:
-
-*bedtools multicov depends upon index BAM files in order to count the number of overlaps in each BAM file. As such, each BAM file should be position sorted (samtool sort aln.bam aln.sort) and indexed (samtools index aln.sort.bam) with either samtools or bamtools.*
-
-```
-Binsanity-profile -o idba-assembly --contigs ../contigs/contigs.id.txt -i ../contigs/final_contigs_c10K.fa -s ../Map --transform Scale
-Binsanity-wf -f ../contigs/-l final_contigs_c10K.fa -c idba-assembly.cov.x100.lognorm
 ```
