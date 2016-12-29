@@ -106,63 +106,8 @@ quast.py -f --meta -t 20 -l "Contigs"  megahit_assembly_sensitive/final.contigs.
 For IDBA-UD this can be run both on the scaffolds and the contigs. In general, the contigs are more reliable.
 
 ### Step 4A: CONCOCT binning
-CONCOCT binning is not optimal for large co-assemblies since it combines both coverage and kmer/GC% in one step. This will result in very slow clustering for complex data sets. So go for Binsanity, if this is the case.
+CONCOCT binning is not optimal for large co-assemblies since it combines both coverage and kmer/GC% in one step. This will result in very slow clustering for complex data sets. So go for Binsanity, if this is the case. We're gonna focus on the IDBA-UD assembly now but for megahit you can find the analogy [here](https://github.com/rprops/DESMAN/wiki/Megahit-analysis).
 
-#### Megahit
-Now we will bin the contigs using CONCOCT.
-First cut your large contigs before running CONCOCT (make sure CONCOCT is in your path).
-```
-module load python-anaconda2/201607
-module load gsl
-
-mkdir contigs
-cut_up_fasta.py -c 10000 -o 0 -m megahit_assembly_sensitive/final.contigs.fa > contigs/final_contigs_c10K.fa
-```
-**Optional/Necessary** You can at this point already remove short contigs (e.g., < 1000) this will save time in the mapping but also for generating the coverage file.
-```
-reformat.sh in=final_contigs_c10K.fa out=final_contigs_c10K_1000.fa minlength=1000
-```
-Then map reads back onto the cut contigs (**warning:** fastq files must not contain unpaired reads). First make index:
-```
-cd contigs
-bwa index final_contigs_c10K.fa
-cd -
-```
-Then perform the mapping (will take a while: put this in shell script and submit as job):
-```
-for file in *R1.fastq
-do
-
-   stub=${file%_R1.fastq}
-
-   echo $stub
-
-   file2=${stub}_R2.fastq
-
-   bwa mem -t 20 contigs/final_contigs_c10K.fa $file $file2 > Map/${stub}.sam
-done
-~/DESMAN/scripts/Collate.pl Map | tr "," "\t" > Coverage.tsv
-```
-After the mapping create .bam files using samtools. Make sure you install bedtools2 for the next step.
-**IMPORTANT:**Make sure you have samtools >v1.3!
-```
-#/bin/bash
-
-set -e
-
-for file in Map/*.sam
-do
-    stub=${file%.sam}
-    stub2=${stub#Map\/}
-    echo $stub
-    samtools view -h -b -S $file > ${stub}.bam
-    samtools view -b -F 4 ${stub}.bam > ${stub}.mapped.bam
-    samtools sort -m 1000000000 ${stub}.mapped.bam -o ${stub}.mapped.sorted.bam
-    samtools index ${stub}.mapped.sorted.bam
-    bedtools genomecov -ibam ${stub}.mapped.sorted.bam -g contigs/final_contigs_c10K.len > ${stub}_cov.txt
-done
-
-```
 #### IDBA-UD
 IDBA-UD will also make scaffolds based on the contigs. So the two primary output files are:
 ```
