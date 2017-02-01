@@ -122,6 +122,10 @@ module load gsl
 mkdir contigs
 cut_up_fasta.py -c 10000 -o 0 -m idba_k52_100_s8/contig.fa > contigs/final_contigs_c10K.fa
 ```
+Be aware that this introduces dots in the contig names (e.g., contig-100_1647.1). This can pose an issue for taxonomic classifications through Phylosift. Replace dots by underscores as follows:
+```
+sed "s/\./_/g" final_contigs_c10K.fa > final_contigs_c10K_nodots.fa
+```
 **Optional/Necessary** You can at this point already remove short contigs (e.g., < 1000) this will save time in the mapping but also for generating the coverage file.
 ```
 reformat.sh in=final_contigs_c10K.fa out=final_contigs_c10K_1000.fa minlength=1000
