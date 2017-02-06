@@ -170,6 +170,16 @@ do
     samtools index ${stub}.mapped.sorted.bam
     bedtools genomecov -ibam ${stub}.mapped.sorted.bam -g contigs/final_contigs_c10K.len > ${stub}_cov.txt
 done
+
+for i in Map/*_cov.txt 
+do 
+   echo $i
+   stub=${i%_cov.txt}
+   stub=${stub#Map\/}
+   echo $stub
+   awk -F"\t" '{l[$1]=l[$1]+($2 *$3);r[$1]=$4} END {for (i in l){print i","(l[i]/r[i])}}' $i > Map/${stub}_cov.csv
+done
+
 ~/DESMAN/scripts/Collate.pl Map | tr "," "\t" > Coverage.tsv
 ```
 Once you've formatted the coverage files we can start binning using CONCOCT (use 40 core in pbs script to maximize on C-CONCOCT). We perform the binning on contigs>3000bp and put the kmer-signature on 4.
