@@ -98,6 +98,15 @@ Note to self: required 1.5 TB of RAM for my samples...
 ```
 megahit -1 $(<R1.csv) -2 $(<R2.csv) -t 40 -o Assembly --presets meta-sensitive > megahit.out
 ```
+
+### IMPORTANT
+Some assemblers (such as the newest idba version) will give extra information in the headers which can be problematic for other software (e.g anvio and phylosift). To avoid this we can use an anvio script to make the headers compatible with all software.
+```
+module load anvio
+anvi-script-reformat-fasta contig.fa -o contigs-fixed.fa -l 0 --simplify-names
+mv contigs-fixed.fa contig.fa
+```
+
 ### Step 3: Generating assembly stats
 We use quast for this purpose (adjust path for your specific assembly):
 ```
