@@ -18,4 +18,4 @@ tmp <- anti_join(reference, file1, by = "V1")
 tmp <- data.frame(V1 = tmp, V2 =rep("UNCLASSIFIED", nrow(reference) - nrow(file1)))
 result <- rbind(file1, tmp)
 result <- result[match(reference$V1, as.character(result$V1)),]
-write.csv(data.frame(label = as.character(result$V2)), file="Annotation_vizbin.csv", row.names = FALSE)
+write.csv(data.frame(label = as.character(result$V2)), file="Annotation_vizbin.csv", row.names = FALSE, quote=FALSE)
