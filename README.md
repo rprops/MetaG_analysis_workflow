@@ -1,4 +1,4 @@
-# DESMAN
+# Metagenomic analysis workflow
 
 ### Install DESMAN
 ```
