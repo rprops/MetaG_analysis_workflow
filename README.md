@@ -83,22 +83,6 @@ In case you run this on flux you'll have to add the following line of code above
 export OMP_NUM_THREADS=${PBS_NP}
 ```
 
-#### Megahit assembly
-Megahit is optimized for metagenomic assemblies, uses low memory and is insensitive to coverage-based normalization. So you can run this on quality trimmed read files. Read files should not be interleaved. When using the <code>qc.sh</code> for quality trimming you will have to remove single reads by using the <code>fastqCombinePairedEnd.py</code> script found [here] (https://github.com/enormandeau/Scripts/blob/master/fastqCombinePairedEnd.py). Example usage:
-```
-python /nfs/vdenef-lab/Shared/Ruben/scripts_metaG/SeqTools/fastqCombinePairedEnd.py *rev* *fwd*
-```
-Put all your paired end fastq files from all samples in one folder. Create R1.csv and R2.csv files for Megahit:
-```
-ls *R1.fastq | head -c -1 | tr '\n' ',' > R1.csv
-ls *R2.fastq | head -c -1 | tr '\n' ',' > R2.csv
-```
-Assemble the reads (do this on flux).
-Note to self: required 1.5 TB of RAM for my samples...
-```
-megahit -1 $(<R1.csv) -2 $(<R2.csv) -t 40 -o Assembly --presets meta-sensitive > megahit.out
-```
-
 ### IMPORTANT
 Some assemblers (such as the newest idba version) will give extra information in the headers which can be problematic for other software (e.g anvio and phylosift). To avoid this we can use an anvio script to make the headers compatible with all software.
 ```
