@@ -17,7 +17,7 @@ Or add it to your path:
 export PATH=~/.local/bin:$PATH
 ```
 ### Other software
-Look [here] (https://github.com/rprops/DESMAN/wiki/Software-installations) to find out if you need to install anything else for the analysis. Make sure all these modules are loaded.
+Look [here](https://github.com/rprops/DESMAN/wiki/Software-installations) to find out if you need to install anything else for the analysis. Make sure all these modules are loaded.
 
 ### Step 1: Quality trimming of reads
 
