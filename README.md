@@ -1,3 +1,7 @@
+--- 
+**Note: up-to-date info and wiki can be found [here](https://github.com/rprops/MetaG_analysis_workflow/wiki)**
+---
+
 # Metagenomic analysis workflow
 
 ### Install DESMAN
